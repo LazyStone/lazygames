@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>lazyGames.de - Deine kostenlosen Mini-Games</title>
+  <style>
+    /* Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f2937, #111827);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header {
+      background-color: #ff0054;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(255, 0, 84, 0.7);
+    }
+    #logo h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 5px;
+      color: #ff49a0;
+    }
+    #logo h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #fff;
+      margin-top: -10px;
+      letter-spacing: 3px;
+    }
+    nav {
+      background-color: #111827;
+      padding: 10px 0;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    nav button {
+      background: transparent;
+      border: 2px solid #ff49a0;
+      color: #ff49a0;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    nav button.active,
+    nav button:hover {
+      background-color: #ff49a0;
+      color: #111827;
+    }
+    main {
+      flex-grow: 1;
+      padding: 20px;
+    }
+    #games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(180px,1fr));
+      gap: 25px;
+    }
+    .game-category {
+      display: contents; /* show cards directly */
+    }
+    .game-card {
+      background-color: #222831;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(255, 73, 160, 0.5);
+      padding: 15px;
+      cursor: pointer;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .game-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 15px 30px rgba(255, 73, 160, 0.8);
+    }
+    .game-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .game-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #ff49a0;
+    }
+    .game-card p {
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+    .placeholder {
+      opacity: 0.5;
+      cursor: default;
+    }
+    #game-playground {
+      margin-top: 20px;
+      text-align: center;
+    }
+    #back-to-menu {
+      background-color: #ff49a0;
+      border: none;
+      padding: 10px 25px;
+      border-radius: 25px;
+      color: #111827;
+      font-weight: 700;
+      cursor: pointer;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+    #game-canvas-container {
+      width: 100%;
+      height: 480px;
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #000;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      nav button {
+        padding: 8px 15px;
+        font-size: 0.9rem;
+      }
+      #logo h1 {
+        font-size: 2.2rem;
+      }
+      #logo h2 {
+        font-size: 1.2rem;
+      }
+      #game-canvas-container {
+        height: 300px;
+      }
+    }
+  </style>
+
+  <!-- Three.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
+</head>
+<body>
+  <header>
+    <div id="logo">
+      <h1>Lazy</h1>
+      <h2>Games</h2>
+    </div>
+  </header>
+
+  <nav>
+    <button class="category-btn active" data-category="shooter">Shooter</button>
+    <button class="category-btn" data-category="racing">Rennspiele</button>
+    <button class="category-btn" data-category="makeup">Schminken</button>
+    <button class="category-btn" data-category="other">Sonstiges</button>
+  </nav>
+
+  <main>
+    <section id="games-container">
+      <!-- Shooter -->
+      <div class="game-category" id="shooter">
+        <div class="game-card" data-game="paintball-arena" tabindex="0" role="button" aria-label="Paintball Arena Spiel starten">
+          <img src="https://cdn-icons-png.flaticon.com/512/3083/3083601.png" alt="Paintball Arena Icon" />
+          <h3>Paintball Arena</h3>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/3083/3083610.png" alt="Coming Soon Icon" />
+          <h3>Laser Battle</h3>
+          <p>Coming Soon</p>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/3083/3083610.png" alt="Coming Soon Icon" />
+          <h3>Zombie Strike</h3>
+          <p>Coming Soon</p>
+        </div>
+      </div>
+
+      <!-- Rennspiele -->
+      <div class="game-category" id="racing" style="display:none;">
+        <div class="game-card" data-game="mini-kart" tabindex="0" role="button" aria-label="Mini Kart Race Spiel starten">
+          <img src="https://cdn-icons-png.flaticon.com/512/821/821436.png" alt="Mini Kart Icon" />
+          <h3>Mini Kart Race</h3>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/821/821436.png" alt="Coming Soon Icon" />
+          <h3>Speed Dash</h3>
+          <p>Coming Soon</p>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/821/821436.png" alt="Coming Soon Icon" />
+          <h3>Offroad Madness</h3>
+          <p>Coming Soon</p>
+        </div>
+      </div>
+
+      <!-- Schminken -->
+      <div class="game-category" id="makeup" style="display:none;">
+        <div class="game-card" data-game="face-makeup" tabindex="0" role="button" aria-label="Face Makeup Spiel starten">
+          <img src="https://cdn-icons-png.flaticon.com/512/4140/4140343.png" alt="Makeup Icon" />
+          <h3>Face Makeup</h3>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/4140/4140343.png" alt="Coming Soon Icon" />
+          <h3>Fashion Star</h3>
+          <p>Coming Soon</p>
+        </div>
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/4140/4140343.png" alt="Coming Soon Icon" />
+          <h3>Hair Styler</h3>
+          <p>Coming Soon</p>
+        </div>
+      </div>
+
+      <!-- Sonstiges -->
+      <div class="game-category" id="other" style="display:none;">
+        <div class="game-card placeholder">
+          <img src="https://cdn-icons-png.flaticon.com/512/565/565547.png" alt="Coming Soon Icon" />
+          <h3>Puzzle Mania</h3>
+         
